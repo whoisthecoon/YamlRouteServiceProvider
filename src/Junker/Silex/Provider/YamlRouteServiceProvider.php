@@ -2,8 +2,9 @@
 
 namespace Junker\Silex\Provider;
 
+use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 use Silex\Application;
-use Silex\ServiceProviderInterface;
 use Symfony\Component\Config\ConfigCacheInterface;
 use Symfony\Component\Config\ConfigCacheFactory;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
@@ -32,9 +33,9 @@ class YamlRouteServiceProvider implements ServiceProviderInterface
         $this->configFilePath = $configFilePath;
     }
 
-    public function register(Application $app)
+    public function register(Container $app)
     {
-        $app['routes'] = $app->share($app->extend('routes', function(RouteCollection $routes, Application $app) {
+        $app['routes'] = $app->factory($app->extend('routes', function(RouteCollection $routes, Application $app) {
             if ($this->cacheDirPath) {
                 $cache = $this->getConfigCacheFactory($app['debug'])->cache($this->cacheDirPath.'/routes.cache.php',
                     function(ConfigCacheInterface $cache) {
@@ -55,10 +56,6 @@ class YamlRouteServiceProvider implements ServiceProviderInterface
 
             return $routes;
         }));
-    }
-
-    public function boot(Application $app)
-    {
     }
 
     /**

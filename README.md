@@ -10,7 +10,7 @@ Silex Service provider for using YAML routing files
 
 ## Requirements
 
-silex 1.x
+Silex 2.x
 
 ## Installation
 
@@ -31,10 +31,10 @@ $app->register(new YamlRouteServiceProvider('routes.yml', ['cache_dir' => '/tmp/
 
 ```
 
-Routes config example: 
+Routes config example:
 
 ```yaml
-# routes.yml 
+# routes.yml
 
 home:
     path: /
